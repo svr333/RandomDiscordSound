@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 // Setup config & httpclient
-var config = new Config(Environment.GetEnvironmentVariable("Token") ?? throw new Exception(), "696343127144923158", "/home/senne/Downloads/Sounds/");
+var config = new Config(Environment.GetEnvironmentVariable("Token") ?? throw new Exception(), "645274523867807773", "/home/senne/Downloads/Sounds/");
 
 if (string.IsNullOrWhiteSpace(config.BotToken) || string.IsNullOrWhiteSpace(config.GuildId)
     || !Directory.Exists(config.SoundsDirectory))
@@ -122,9 +122,9 @@ async Task UploadSoundToDiscord(HttpClient httpClient, string emoji, string soun
 
     var payload = new CreateSoundRequest
     {
-        Name      = soundName,
-        Sound     = dataUri,
-        Volume    = 1.0,
+        Name = soundName,
+        Sound = dataUri,
+        Volume = 1.0,
         EmojiName = emoji
     };
 
@@ -149,13 +149,10 @@ async Task UploadSoundToDiscord(HttpClient httpClient, string emoji, string soun
 
     if (!response.IsSuccessStatusCode)
     {
-        // Pretty-print Discord's error body
         try
         {
             using var doc = JsonDocument.Parse(responseBody);
-            Console.WriteLine(JsonSerializer.Serialize(
-                doc.RootElement,
-                new JsonSerializerOptions { WriteIndented = true }));
+            Console.WriteLine(JsonSerializer.Serialize(doc.RootElement, new JsonSerializerOptions { WriteIndented = true }));
         }
         catch
         {
