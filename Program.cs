@@ -42,7 +42,7 @@ if (oggFiles.Length > maxDiscordSounds)
         var emoji = fileName.Split('-')[0];
         var soundName = fileName.Split('-')[1];
 
-        await UploadSoundToDiscord(http, emoji, soundName, randomFile)
+        await UploadSoundToDiscord(http, emoji, soundName, randomFile);
     }
 }
 else
