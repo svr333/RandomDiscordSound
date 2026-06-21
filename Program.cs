@@ -20,26 +20,42 @@ http.DefaultRequestHeaders.Add("User-Agent", "DiscordSoundboardUploader/1.0");
 await DeleteAllSoundsFromDiscord(http);
 
 var oggFiles = Directory.GetFiles(config.SoundsDirectory, "*.ogg", SearchOption.TopDirectoryOnly);
-/*var maxDiscordSounds = 8;
+var maxDiscordSounds = 8;
 
 if (oggFiles.Length > maxDiscordSounds)
 {
+    List<int> hitIndices = [];
+
     for (int i = 0; i < maxDiscordSounds; i++)
     {
-        var randomFile = strings[Random.Shared.Next(strings.Length)];
+        int random;
 
-        await UploadSoundToDiscord(http, emoji, soundName, file)
+        do
+        {
+            random = Random.Shared.Next(oggFiles.Length);
+        } while (hitIndices.Contains(random));
+
+        var randomFile = oggFiles[random];
+
+        var fileName = Path.GetFileNameWithoutExtension(randomFile);
+
+        var emoji = fileName.Split('-')[0];
+        var soundName = fileName.Split('-')[1];
+
+        await UploadSoundToDiscord(http, emoji, soundName, randomFile)
     }
-}*/
-
-foreach (var file in oggFiles)
+}
+else
 {
-    var fileName = Path.GetFileNameWithoutExtension(file);
+    foreach (var file in oggFiles)
+    {
+        var fileName = Path.GetFileNameWithoutExtension(file);
 
-    var emoji = fileName.Split('-')[0];
-    var soundName = fileName.Split('-')[1];
+        var emoji = fileName.Split('-')[0];
+        var soundName = fileName.Split('-')[1];
 
-    await UploadSoundToDiscord(http, emoji, soundName, file);
+        await UploadSoundToDiscord(http, emoji, soundName, file);
+    }
 }
 
 async Task DeleteAllSoundsFromDiscord(HttpClient httpClient)
